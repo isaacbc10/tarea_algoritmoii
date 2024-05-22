@@ -1,0 +1,114 @@
+html,
+body {
+    display: flex;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.form {
+    padding: 25px;
+    background-color: white;
+    width: 500px;
+    text-align: center;
+    justify-content: center;
+    background-color: #8aa399;
+}
+
+.container-form {
+    padding: 10px;
+    background-color: white;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+label {
+    width: max-content;
+    margin: 60px auto;
+    display: grid;
+    grid-template-areas: "input";
+}
+
+.input {
+    grid-area: input;
+    width: 300px;
+    font: inherit;
+    border-radius: 40px;
+    border: 1px solid gray;
+    padding: .7rem 1.5rem;
+}
+
+.label_name {
+    grid-area: input;
+
+    z-index: 100;
+    width: max-content;
+    margin-left: 1rem;
+    padding: 0 .5rem;
+    align-self: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    transition: transform .2s;
+    transform-origin: center left;
+}
+
+.input:focus+.label_name,
+.input:not(:placeholder-shown)+.label_name {
+    transform: translateY(-50%) scale(.7);
+    background-color: white;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.content-select {
+    max-width: 100%;
+    position: relative;
+}
+
+.content-select select {
+    display: inline-block;
+    width: 100%;
+    cursor: pointer;
+    padding: 10px;
+    height: 42px;
+    outline: 0;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background: #fff;
+    color: #495057;
+    font-size: 16px;
+    font-family: 'Quicksand', sans-serif;
+    transition: all 0.25s ease;
+}
+
+.content-select select:hover {
+    background: #B1E8CD;
+}
+
+.content-select i {
+    position: absolute;
+    right: 20px;
+    top: calc(50% - 8px);
+    width: 16px;
+    height: 16px;
+    display: block;
+    border-left: 4px solid #2AC176;
+    border-bottom: 4px solid #2AC176;
+    transform: rotate(-45deg);
+    transition: all 0.25s ease;
+}
+
+.content-select:hover i {
+    margin-top: 3px;
+}

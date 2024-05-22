@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planner</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <section class="form">
+        <div class="container-form">
+            <h1>Planner</h1>
+            <form action="/agregar" method="POST">
+                <label for="" class="label">
+                    <input type="text" class="input" placeholder=" " required>
+                    <span class="label_name">Descripción</span>
+                </label>
+                <label for="" class="label">
+                    <input type="date" class="input" name="fecha_inicio" required>
+                    <span class="label_name">Fecha de inicio</span>
+                </label>
+                <label for="" class="label">
+                    <input type="date" class="input" name="fecha_limite" required>
+                    <span class="label_name">Fecha Limite</span>
+                </label>
+                <label for="" class="label">
+                    <input type="text" class="input" placeholder=" " required></input>
+                    <span class="label_name">Notas (opcional)</span>
+                </label>
+                <label for="" class="label">
+                    <input type="text" class="input" placeholder=" " required>
+                    <span class="label_name">Tags</span>
+                </label>
+                <div class="box">
+                    <select name="prioridad" required>
+                        <option value=""></option>
+                        <option value="baja">Baja</option>
+                        <option value="media">Media</option>
+                        <option value="alta">Alta</option>
+                        <option value="urgente">Urgente</option>
+                    </select>
+                    <select name="estado" required>
+                        <option value=""></option>
+                        <option value="No iniciado">No iniciado</option>
+                        <option value="En progreso">En progreso</option>
+                        <option value="Finalizado">Finalizado</option>
+                    </select>
+                </div>
+                <button type="submit">Agregar</button>
+            </form>
+            </ul>
+        </div>
+    </section>
+    <section>
+        <h2>Tareas</h2>
+        {% if error %}
+        <p>{{ error }}</p>
+        {% endif %}
+        <ul>
+            {% for tarea in tareas %}
+            <li>
+                {{ tarea.descripcion }} - {{ tarea.fecha_inicio }} - {{ tarea.fecha_limite }} - {{ tarea.prioridad }} -
+                {{ tarea.estado }} - {{ tarea.tags }}
+                <a href="/eliminar/{{ tarea.descripcion }}">Eliminar</a>
+                <ul>
+                    {% for sub_tarea in tarea.sub_tareas %}
+                    <li>{{ sub_tarea.descripcion }} - {{ sub_tarea.prioridad }} - {{ sub_tarea.estado }} - {{
+                        sub_tarea.tags }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+    </section>
+</body>
+
+</html>

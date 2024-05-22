@@ -35,19 +35,25 @@
                     <span class="label_name">Tags</span>
                 </label>
                 <div class="box">
-                    <select name="prioridad" required>
-                        <option value=""></option>
-                        <option value="baja">Baja</option>
-                        <option value="media">Media</option>
-                        <option value="alta">Alta</option>
-                        <option value="urgente">Urgente</option>
-                    </select>
-                    <select name="estado" required>
-                        <option value=""></option>
-                        <option value="No iniciado">No iniciado</option>
-                        <option value="En progreso">En progreso</option>
-                        <option value="Finalizado">Finalizado</option>
-                    </select>
+                    <label for="">
+                        <span>Prioridad</span>
+                        <select name="prioridad" required>
+                            <option value=""></option>
+                            <option value="baja">Baja</option>
+                            <option value="media">Media</option>
+                            <option value="alta">Alta</option>
+                            <option value="urgente">Urgente</option>
+                        </select>
+                    </label>
+                    <label for="">
+                        <span>Progreso</span>
+                        <select name="estado" required>
+                            <option value=""></option>
+                            <option value="No iniciado">No iniciado</option>
+                            <option value="En progreso">En progreso</option>
+                            <option value="Finalizado">Finalizado</option>
+                        </select>
+                    </label>
                 </div>
                 <button type="submit">Agregar</button>
             </form>

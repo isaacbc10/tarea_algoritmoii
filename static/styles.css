@@ -58,8 +58,8 @@ label {
 
 .input:focus+.label_name,
 .input:not(:placeholder-shown)+.label_name {
-    transform: translateY(-50%) scale(.7);
-    background-color: white;
+    transform: translateY(-65%) scale(.8);
+    background-color: rgba(255, 255, 255, 0);
 }
 
 
@@ -207,7 +207,6 @@ label {
     margin: 0;
     display: flex;
     flex-direction: column;
-    border: 2px solid black;
 }
 
 .tareas h2 {

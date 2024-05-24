@@ -39,6 +39,7 @@ label {
     border-radius: 40px;
     border: 1px solid gray;
     padding: .7rem 1.5rem;
+    height: 28px;
 }
 
 .label_name {
@@ -90,10 +91,10 @@ label {
 
 .content-select select {
     display: inline-block;
-    width: 120px;
+    width: 150px;
     cursor: pointer;
     padding: 10px;
-    height: 42px;
+    height: 52px;
     outline: 0;
     border-radius: 40px;
     background: #ffffff;
@@ -216,6 +217,7 @@ label {
     padding: 10px;
     border-radius: 10px;
     margin: 0;
+    margin-bottom: 15px;
     text-align: center;
 }
 
@@ -238,4 +240,20 @@ th, td {
 th {
     background-color: #f2f2f2;
     color: #333;
+}
+
+.filter-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-container div {
+    text-align: center;
+}
+
+.filter-container label {
+    display: block;
+    margin-bottom: 5px;
 }

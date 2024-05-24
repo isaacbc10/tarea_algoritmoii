@@ -7,6 +7,7 @@
     <title>Planner</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='tu_scripts.js') }}"></script>
 </head>
 
 <body>
@@ -17,7 +18,7 @@
                 <div class="box-1">
                     <label for="" class="label">
                         <input type="text" class="input" name="descripcion" placeholder=" " required>
-                        <span class="label_name">Descripción</span>
+                        <span class="label_name">Titulo</span>
                     </label>
                     <label for="" class="label">
                         <input type="date" class="input" name="fecha_limite" required>
@@ -37,17 +38,17 @@
                             <div class="content-select">
                                 <select name="prioridad" required>
                                     <option value=""></option>
-                                    <option value="baja">Baja</option>
-                                    <option value="media">Media</option>
-                                    <option value="alta">Alta</option>
-                                    <option value="urgente">Urgente</option>
+                                    <option value="Baja">Baja</option>
+                                    <option value="Media">Media</option>
+                                    <option value="Alta">Alta</option>
+                                    <option value="Urgente">Urgente</option>
                                 </select>
                             </div>
                         </label>
                         <label for="">
                             <span>Progreso</span>
                             <div class="content-select">
-                                <select name="estado" required>
+                                <select name="progreso" required>
                                     <option value=""></option>
                                     <option value="No iniciado">No iniciado</option>
                                     <option value="En progreso">En progreso</option>
@@ -63,32 +64,60 @@
     </section>
     <section class="tareas">
         <h2>Tareas</h2>
-        {% if error %}
-        <p>{{ error }}</p>
-        {% endif %}
-        <div class="table-container">
-            <table>
+        <div class="filter-container">
+            <label for="descripcion">Descripción:</label>
+            <input type="text" id="descripcion" name="descripcion" placeholder="Descripción">
+    
+            <label for="fecha_limite">Fecha Límite:</label>
+            <input type="date" id="fecha_limite" name="fecha_limite">
+    
+            <label for="prioridad">Prioridad:</label>
+            <select id="prioridad" name="prioridad">
+                <option value="">Prioridad</option>
+                <option value="baja">Baja</option>
+                <option value="media">Media</option>
+                <option value="alta">Alta</option>
+                <option value="urgente">Urgente</option>
+            </select>
+    
+            <label for="progreso">Progreso:</label>
+            <select id="progreso" name="progreso">
+                <option value="">Progreso</option>
+                <option value="No iniciado">No iniciado</option>
+                <option value="En progreso">En progreso</option>
+                <option value="Finalizado">Finalizado</option>
+            </select>
+        </div>
+        <table id="tareas-table">
+            <thead>
                 <tr>
                     <th>Descripción</th>
                     <th>Fecha Límite</th>
                     <th>Prioridad</th>
-                    <th>Estado</th>
+                    <th>Progreso</th>
                     <th>Tags</th>
                     <th>Acciones</th>
                 </tr>
+            </thead>
+            <tbody>
                 {% for tarea in tareas %}
                 <tr>
                     <td>{{ tarea.descripcion }}</td>
                     <td>{{ tarea.fecha_limite }}</td>
                     <td>{{ tarea.prioridad }}</td>
-                    <td>{{ tarea.estado }}</td>
-                    <td>{{ tarea.tags }}</td>
+                    <td>{{ tarea.progreso }}</td>
+                    <td>
+                        {% for tag in tarea.tags %}
+                            #{{ tag }}{% if not loop.last %} {% endif %}
+                        {% endfor %}
+                    </td>
                     <td><a href="/eliminar/{{ tarea.descripcion }}">Eliminar</a></td>
                 </tr>
                 {% endfor %}
-            </table>
-        </div>
+            </tbody>
+        </table>
     </section>
+    
 </body>
 
 </html>

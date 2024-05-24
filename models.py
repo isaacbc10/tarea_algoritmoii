@@ -1,10 +1,9 @@
 class Tarea:
-    def __init__(self, descripcion, fecha_inicio, fecha_limite, prioridad, tags=None, estado=None, notas=None):
+    def __init__(self, descripcion, fecha_limite, prioridad, tags=None, progreso=None, notas=None):
         self.descripcion = descripcion
-        self.fecha_inicio = fecha_inicio
         self.fecha_limite = fecha_limite
         self.prioridad = prioridad
-        self.estado = estado if estado is not None else "No iniciado"
+        self.progreso = progreso if progreso is not None else "No iniciado"
         self.tags = tags if tags is not None else []
         self.notas = notas if notas is not None else ""
         self.sub_tareas = []
@@ -25,8 +24,8 @@ class Planner:
     def __init__(self):
         self.tareas = []
 
-    def agregar_tarea(self, descripcion, fecha_inicio, fecha_limite, prioridad, tags=None, estado=None, notas=None):
-        nueva_tarea = Tarea(descripcion, fecha_inicio, fecha_limite, prioridad, tags, estado, notas)
+    def agregar_tarea(self, descripcion, fecha_limite, prioridad, tags=None, progreso=None, notas=None):
+        nueva_tarea = Tarea(descripcion, fecha_limite, prioridad, tags, progreso, notas)
         self.tareas.append(nueva_tarea)
         return nueva_tarea
 
@@ -60,6 +59,6 @@ class Planner:
 
     def _mostrar_tarea(self, tarea, nivel):
         indentacion = ' ' * (nivel * 4)
-        print(f"{indentacion}Descripción: {tarea.descripcion}, Fecha Inicio: {tarea.fecha_inicio}, Fecha Límite: {tarea.fecha_limite}, Prioridad: {tarea.prioridad}, Estado: {tarea.estado}, Tags: {tarea.tags}, Notas: {tarea.notas}")
+        print(f"{indentacion}Descripción: {tarea.descripcion}, Fecha Inicio: {tarea.fecha_inicio}, Fecha Límite: {tarea.fecha_limite}, Prioridad: {tarea.prioridad}, Estado: {tarea.progreso}, Tags: {tarea.tags}, Notas: {tarea.notas}")
         for sub_tarea in tarea.sub_tareas:
             self._mostrar_tarea(sub_tarea, nivel + 1)

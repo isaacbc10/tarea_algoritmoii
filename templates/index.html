@@ -64,8 +64,8 @@
     </section>
     <section class="tareas">
         <h2>Tareas</h2>
-        <form action="/buscar" method="GET">
-            <label for="query" class="label">
+        <form class="buscar" action="/buscar" method="GET">
+            <label for="query" class="label-buscar">
                 <input type="text" class="input" name="query" placeholder="Buscar tarea..." value="{{ query }}">
                 <span class="label_name">Buscar tarea</span>
             </label>
@@ -132,7 +132,7 @@
                     </label>
                     <label>
                         Notas:
-                        <input type="text" name="notas" id="edit_notas" required>
+                        <input type="text" name="notas" id="edit_notas">
                     </label>
                 </div>
                 <button type="submit">Guardar cambios</button>

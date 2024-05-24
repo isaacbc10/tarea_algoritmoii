@@ -2,7 +2,7 @@ html,
 body {
     display: flex;
     width: 100%;
-    height: auto;
+    height: 100%;
     margin: 0;
     padding: 0;
 }
@@ -10,20 +10,20 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #9eb9e1, #034a1c);
-    height: 100vh;
+    height: 100%;
     display: flex;
     color: #333;
+    background: linear-gradient(135deg, #9eb9e1, #034a1c);
 }
 
 .form {
     padding: 25px;
     background-color: white;
-    width: 500px;
+    width: 450px;
     text-align: center;
     justify-content: center;
     background: #ff000000;
-    height: 590px;
+    height: 100%;
 }
 
 .container-form {
@@ -36,7 +36,7 @@ body {
 
 label {
     width: max-content;
-    margin: 10px 30px;
+    margin: 10px 10px;
     display: grid;
     grid-template-areas: "input";
 }
@@ -70,7 +70,6 @@ label {
     transform: translateY(-65%) scale(.8);
     background-color: rgba(255, 255, 255, 0);
 }
-
 
 .box {
     display: flex;
@@ -212,7 +211,7 @@ label {
 .tareas {
     width: 100%;
     height: 100%;
-    background-color: #8aa399;
+    background-color: transparent;
     padding: 25px;
     margin: 0;
     display: flex;
@@ -406,7 +405,7 @@ label {
 .editar-tarea {
     display: flex;
     align-items: center;
-    background-color: #6f847c; /* Green background */
+    background-color: #6f847c; 
     border: none;
     color: white;
     padding: 10px 20px;
@@ -416,10 +415,26 @@ label {
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 4px;
-    transition-duration: 0.4s; /* Animation duration */
+    transition-duration: 0.4s; 
 }
 .editar-tarea:hover {
-    background-color: white; /* White background on hover */
-    color: black; /* Black text on hover */
-    border: 2px solid #6f847c; /* Green border on hover */
+    background-color: white; 
+    color: black; 
+    border: 2px solid #6f847c; 
+}
+
+.buscar {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    margin: -5px 15px 10px 0;
+}
+
+.buscar button {
+    margin: 0;
+}
+
+.buscar label {
+    margin: 0 15px 0 0;
 }

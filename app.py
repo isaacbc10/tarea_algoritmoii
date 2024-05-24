@@ -47,5 +47,11 @@ def editar():
 
     return redirect(url_for('index'))
 
+@app.route('/buscar', methods=['GET'])
+def buscar():
+    query = request.args.get('query')
+    resultados = planner.buscar_tarea(query) if query else []
+    return render_template('index.html', tareas=resultados, query=query)
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -7,7 +7,7 @@
     <title>Planner</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="{{ url_for('static', filename='tu_scripts.js') }}"></script>
+    <script src="/static/scripts.js" defer></script>
 </head>
 
 <body>
@@ -25,7 +25,7 @@
                         <span class="label_name">Fecha Limite</span>
                     </label>
                     <label for="" class="label">
-                        <input type="text" class="input" name="notas" placeholder=" " required></input>
+                        <input type="text" class="input" name="notas" placeholder=" "></input>
                         <span class="label_name">Notas (opcional)</span>
                     </label>
                     <label for="" class="label">
@@ -64,60 +64,70 @@
     </section>
     <section class="tareas">
         <h2>Tareas</h2>
-        <div class="filter-container">
-            <label for="descripcion">Descripción:</label>
-            <input type="text" id="descripcion" name="descripcion" placeholder="Descripción">
-    
-            <label for="fecha_limite">Fecha Límite:</label>
-            <input type="date" id="fecha_limite" name="fecha_limite">
-    
-            <label for="prioridad">Prioridad:</label>
-            <select id="prioridad" name="prioridad">
-                <option value="">Prioridad</option>
-                <option value="baja">Baja</option>
-                <option value="media">Media</option>
-                <option value="alta">Alta</option>
-                <option value="urgente">Urgente</option>
-            </select>
-    
-            <label for="progreso">Progreso:</label>
-            <select id="progreso" name="progreso">
-                <option value="">Progreso</option>
-                <option value="No iniciado">No iniciado</option>
-                <option value="En progreso">En progreso</option>
-                <option value="Finalizado">Finalizado</option>
-            </select>
+        <div id="tareas-container" class="grid-container">
+            {% for tarea in tareas %}
+            <div class="tarea">
+                <div class="titulo-tarea" data-id="{{ tarea.descripcion }}">
+                    <span>{{ tarea.descripcion }}</span>
+                    <button class="editar-tarea" data-id="{{ tarea.descripcion }}">Editar</button>
+                </div>
+                <div class="detalle-tarea" data-id="{{ tarea.descripcion }}">
+                    <p>Descripción: {{ tarea.descripcion }}</p>
+                    <p>Fecha Límite: {{ tarea.fecha_limite }}</p>
+                    <p>Prioridad: {{ tarea.prioridad }}</p>
+                    <p>Progreso: {{ tarea.progreso }}</p>
+                    <p>Tags: {% for tag in tarea.tags %}#{{ tag }} {% endfor %}</p>
+                    <p>Notas: {{ tarea.notas }}</p>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        <table id="tareas-table">
-            <thead>
-                <tr>
-                    <th>Titulo</th>
-                    <th>Fecha Límite</th>
-                    <th>Prioridad</th>
-                    <th>Progreso</th>
-                    <th>Tags</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for tarea in tareas %}
-                <tr>
-                    <td>{{ tarea.descripcion }}</td>
-                    <td>{{ tarea.fecha_limite }}</td>
-                    <td>{{ tarea.prioridad }}</td>
-                    <td>{{ tarea.progreso }}</td>
-                    <td>
-                        {% for tag in tarea.tags %}
-                            #{{ tag }}{% if not loop.last %} {% endif %}
-                        {% endfor %}
-                    </td>
-                    <td><a href="/eliminar/{{ tarea.descripcion }}">Eliminar</a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
     </section>
-    
+
+    <!-- Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Editar Tarea</h2>
+            <form id="editForm" action="/editar" method="POST">
+                <input type="hidden" name="original_descripcion" id="original_descripcion">
+                <label>
+                    Descripción:
+                    <input type="text" name="descripcion" id="edit_descripcion" required>
+                </label>
+                <label>
+                    Fecha Límite:
+                    <input type="date" name="fecha_limite" id="edit_fecha_limite" required>
+                </label>
+                <label>
+                    Prioridad:
+                    <select name="prioridad" id="edit_prioridad" required>
+                        <option value="Baja">Baja</option>
+                        <option value="Media">Media</option>
+                        <option value="Alta">Alta</option>
+                        <option value="Urgente">Urgente</option>
+                    </select>
+                </label>
+                <label>
+                    Progreso:
+                    <select name="progreso" id="edit_progreso" required>
+                        <option value="No iniciado">No iniciado</option>
+                        <option value="En progreso">En progreso</option>
+                        <option value="Finalizado">Finalizado</option>
+                    </select>
+                </label>
+                <label>
+                    Tags:
+                    <input type="text" name="tags" id="edit_tags" required>
+                </label>
+                <label>
+                    Notas:
+                    <textarea name="notas" id="edit_notas"></textarea>
+                </label>
+                <button type="submit">Guardar cambios</button>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>

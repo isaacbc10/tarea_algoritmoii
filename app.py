@@ -14,7 +14,7 @@ def agregar():
         descripcion = request.form['descripcion']
         fecha_limite = request.form['fecha_limite']
         prioridad = request.form['prioridad']
-        tags = request.form['tags'].split(',')
+        tags = request.form['tags'].split(', ')
         progreso = request.form['progreso']
         notas = request.form['notas']
         planner.agregar_tarea(descripcion, fecha_limite, prioridad, tags, progreso, notas)
@@ -23,22 +23,29 @@ def agregar():
 
     return redirect(url_for('index'))
 
-@app.route('/eliminar/<descripcion>')
-def eliminar(descripcion):
-    planner.eliminar_tarea(descripcion)
-    return redirect(url_for('index'))
-
-@app.route('/buscar', methods=['GET', 'POST'])
-def buscar():
-    if request.method == 'POST':
+@app.route('/editar', methods=['POST'])
+def editar():
+    try:
+        original_descripcion = request.form['original_descripcion']
         descripcion = request.form['descripcion']
-        tarea = planner.buscar_tarea(descripcion)
+        fecha_limite = request.form['fecha_limite']
+        prioridad = request.form['prioridad']
+        tags = request.form['tags'].split(', ')
+        progreso = request.form['progreso']
+        notas = request.form['notas']
+        
+        tarea = planner.buscar_tarea(original_descripcion)
         if tarea:
-            return render_template('index.html', tareas=[tarea])
-        else:
-            return render_template('index.html', tareas=planner.tareas, error="Tarea no encontrada")
-    return render_template('buscar.html')
+            tarea.descripcion = descripcion
+            tarea.fecha_limite = fecha_limite
+            tarea.prioridad = prioridad
+            tarea.tags = tags
+            tarea.progreso = progreso
+            tarea.notas = notas
+    except KeyError as e:
+        return f"Missing field: {e}", 400
 
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)

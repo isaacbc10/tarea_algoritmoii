@@ -64,12 +64,21 @@
     </section>
     <section class="tareas">
         <h2>Tareas</h2>
+        <form action="/buscar" method="GET">
+            <label for="query" class="label">
+                <input type="text" class="input" name="query" placeholder="Buscar tarea..." value="{{ query }}">
+                <span class="label_name">Buscar tarea</span>
+            </label>
+            <button type="submit" class="button-85">Buscar</button>
+        </form>
         <div id="tareas-container" class="grid-container">
             {% for tarea in tareas %}
             <div class="tarea">
                 <div class="titulo-tarea" data-id="{{ tarea.descripcion }}">
                     <span>{{ tarea.descripcion }}</span>
-                    <button class="editar-tarea" data-id="{{ tarea.descripcion }}">Editar</button>
+                    <button class="editar-tarea" data-id="{{ tarea.descripcion }}">
+                        <i class="gg-pen"></i> Editar
+                    </button>
                 </div>
                 <div class="detalle-tarea" data-id="{{ tarea.descripcion }}">
                     <p>Descripción: {{ tarea.descripcion }}</p>

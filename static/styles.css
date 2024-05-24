@@ -6,6 +6,15 @@ body {
     margin: 0;
     padding: 0;
 }
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #9eb9e1, #034a1c);
+    height: 100vh;
+    display: flex;
+    color: #333;
+}
 
 .form {
     padding: 25px;
@@ -13,8 +22,8 @@ body {
     width: 500px;
     text-align: center;
     justify-content: center;
-    background-color: #8aa399;
-    height: 100%;
+    background: #ff000000;
+    height: 590px;
 }
 
 .container-form {
@@ -201,8 +210,8 @@ label {
 
 .tareas {
     width: 100%;
-    height: 100%;
-    background-color: #8aa399;
+    height: 590px;
+    background: rgba(255, 0, 0, 0);
     padding: 20px;
     margin: 0;
     display: flex;
@@ -349,4 +358,67 @@ label {
 
 #editForm label {
     margin: 10px;
+}
+.gg-pen {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+    transform: rotate(-45deg) scale(var(--ggs, 1));
+    width: 14px;
+    height: 4px;
+    border-right: 2px solid transparent;
+    box-shadow: 0 0 0 2px, inset -2px 0 0;
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+    margin-right: 5px; /* Adjusted for spacing */
+    vertical-align: middle; /* Aligns icon with text */
+}
+.gg-pen::after,
+.gg-pen::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+}
+.gg-pen::before {
+    background: currentColor;
+    border-left: 0;
+    right: -6px;
+    width: 3px;
+    height: 4px;
+    border-radius: 1px;
+    top: 0;
+}
+.gg-pen::after {
+    width: 8px;
+    height: 7px;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-right: 7px solid;
+    left: -11px;
+    top: -2px;
+}
+.editar-tarea {
+    display: flex;
+    align-items: center;
+}
+.editar-tarea {
+    display: flex;
+    align-items: center;
+    background-color: #6f847c; /* Green background */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition-duration: 0.4s; /* Animation duration */
+}
+.editar-tarea:hover {
+    background-color: white; /* White background on hover */
+    color: black; /* Black text on hover */
+    border: 2px solid #6f847c; /* Green border on hover */
 }

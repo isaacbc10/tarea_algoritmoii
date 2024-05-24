@@ -90,40 +90,42 @@
             <span class="close">&times;</span>
             <h2>Editar Tarea</h2>
             <form id="editForm" action="/editar" method="POST">
-                <input type="hidden" name="original_descripcion" id="original_descripcion">
-                <label>
-                    Descripción:
-                    <input type="text" name="descripcion" id="edit_descripcion" required>
-                </label>
-                <label>
-                    Fecha Límite:
-                    <input type="date" name="fecha_limite" id="edit_fecha_limite" required>
-                </label>
-                <label>
-                    Prioridad:
-                    <select name="prioridad" id="edit_prioridad" required>
-                        <option value="Baja">Baja</option>
-                        <option value="Media">Media</option>
-                        <option value="Alta">Alta</option>
-                        <option value="Urgente">Urgente</option>
-                    </select>
-                </label>
-                <label>
-                    Progreso:
-                    <select name="progreso" id="edit_progreso" required>
-                        <option value="No iniciado">No iniciado</option>
-                        <option value="En progreso">En progreso</option>
-                        <option value="Finalizado">Finalizado</option>
-                    </select>
-                </label>
-                <label>
-                    Tags:
-                    <input type="text" name="tags" id="edit_tags" required>
-                </label>
-                <label>
-                    Notas:
-                    <textarea name="notas" id="edit_notas"></textarea>
-                </label>
+                <div class="formEdit">
+                    <input type="hidden" name="original_descripcion" id="original_descripcion">
+                    <label>
+                        Descripción:
+                        <input type="text" name="descripcion" id="edit_descripcion" required>
+                    </label>
+                    <label>
+                        Fecha Límite:
+                        <input type="date" name="fecha_limite" id="edit_fecha_limite" required>
+                    </label>
+                    <label>
+                        Prioridad:
+                        <select name="prioridad" id="edit_prioridad" required>
+                            <option value="Baja">Baja</option>
+                            <option value="Media">Media</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Urgente">Urgente</option>
+                        </select>
+                    </label>
+                    <label>
+                        Progreso:
+                        <select name="progreso" id="edit_progreso" required>
+                            <option value="No iniciado">No iniciado</option>
+                            <option value="En progreso">En progreso</option>
+                            <option value="Finalizado">Finalizado</option>
+                        </select>
+                    </label>
+                    <label>
+                        Tags:
+                        <input type="text" name="tags" id="edit_tags" required>
+                    </label>
+                    <label>
+                        Notas:
+                        <input type="text" name="notas" id="edit_notas" required>
+                    </label>
+                </div>
                 <button type="submit">Guardar cambios</button>
             </form>
         </div>

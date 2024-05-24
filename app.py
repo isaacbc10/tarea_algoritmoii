@@ -10,14 +10,18 @@ def index():
 
 @app.route('/agregar', methods=['POST'])
 def agregar():
-    descripcion = request.form['descripcion']
-    fecha_inicio = request.form['fecha_inicio']
-    fecha_limite = request.form['fecha_limite']
-    prioridad = request.form['prioridad']
-    tags = request.form['tags'].split(',')
-    estado = request.form['estado']
-    notas = request.form['notas']
-    planner.agregar_tarea(descripcion, fecha_inicio, fecha_limite, prioridad, tags, estado, notas)
+    try:
+        descripcion = request.form['descripcion']
+        fecha_inicio = request.form['fecha_inicio']
+        fecha_limite = request.form['fecha_limite']
+        prioridad = request.form['prioridad']
+        tags = request.form['tags'].split(',')
+        estado = request.form['estado']
+        notas = request.form['notas']
+        planner.agregar_tarea(descripcion, fecha_inicio, fecha_limite, prioridad, tags, estado, notas)
+    except KeyError as e:
+        return f"Missing field: {e}", 400
+
     return redirect(url_for('index'))
 
 @app.route('/eliminar/<descripcion>')
@@ -35,6 +39,7 @@ def buscar():
         else:
             return render_template('index.html', tareas=planner.tareas, error="Tarea no encontrada")
     return render_template('buscar.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

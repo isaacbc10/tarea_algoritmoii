@@ -12,13 +12,12 @@ def index():
 def agregar():
     try:
         descripcion = request.form['descripcion']
-        fecha_inicio = request.form['fecha_inicio']
         fecha_limite = request.form['fecha_limite']
         prioridad = request.form['prioridad']
         tags = request.form['tags'].split(',')
         estado = request.form['estado']
         notas = request.form['notas']
-        planner.agregar_tarea(descripcion, fecha_inicio, fecha_limite, prioridad, tags, estado, notas)
+        planner.agregar_tarea(descripcion, fecha_limite, prioridad, tags, estado, notas)
     except KeyError as e:
         return f"Missing field: {e}", 400
 

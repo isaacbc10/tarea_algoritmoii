@@ -66,21 +66,28 @@
         {% if error %}
         <p>{{ error }}</p>
         {% endif %}
-        <ul>
-            {% for tarea in tareas %}
-            <li>
-                {{ tarea.descripcion }} - {{ tarea.fecha_limite }} - {{ tarea.prioridad }} -
-                {{ tarea.estado }} - {{ tarea.tags }}
-                <a href="/eliminar/{{ tarea.descripcion }}">Eliminar</a>
-                <ul>
-                    {% for sub_tarea in tarea.sub_tareas %}
-                    <li>{{ sub_tarea.descripcion }} - {{ sub_tarea.prioridad }} - {{ sub_tarea.estado }} - {{
-                        sub_tarea.tags }}</li>
-                    {% endfor %}
-                </ul>
-            </li>
-            {% endfor %}
-        </ul>
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th>Descripción</th>
+                    <th>Fecha Límite</th>
+                    <th>Prioridad</th>
+                    <th>Estado</th>
+                    <th>Tags</th>
+                    <th>Acciones</th>
+                </tr>
+                {% for tarea in tareas %}
+                <tr>
+                    <td>{{ tarea.descripcion }}</td>
+                    <td>{{ tarea.fecha_limite }}</td>
+                    <td>{{ tarea.prioridad }}</td>
+                    <td>{{ tarea.estado }}</td>
+                    <td>{{ tarea.tags }}</td>
+                    <td><a href="/eliminar/{{ tarea.descripcion }}">Eliminar</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
     </section>
 </body>
 

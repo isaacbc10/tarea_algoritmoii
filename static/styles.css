@@ -240,10 +240,14 @@ label {
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
 }
 
 .detalle-tarea p{
-    margin: 10px;
+    margin: 10px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .titulo-tarea {
@@ -251,10 +255,20 @@ label {
     justify-content: space-between;
     align-items: center;
     padding: 5px 10px;
+    max-width: 100%;
+}
+
+.titulo-tarea span {
+    flex-grow: 1;
+    margin-right: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .titulo-tarea button {
-    margin-left: auto; 
+    flex-shrink: 0;
+    margin-left: 10px;
 }
 
 /* Modal styling */
@@ -273,25 +287,36 @@ label {
 }
 
 .modal-content {
+    display: flex;
     background-color: white;
     margin: auto;
-    padding: 20px;
+    padding: 10px 30px;
     border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
+    height: 400px;
+    width: 100%;
+    max-width: 400px;
     border-radius: 10px;
+    flex-direction: column;
+    align-items: center;
+    max-height: 80vh; 
+    overflow-y: auto;
+}
+
+.modal-content h2 {
+    margin: 0;
 }
 
 .close {
-    color: white;
+    color: black;
     float: right;
     font-size: 28px;
     font-weight: bold;
+    width: 18px;
 }
 
 .close:hover,
 .close:focus {
-    color: black;
+    color: gray;
     text-decoration: none;
     cursor: pointer;
 }
@@ -304,4 +329,25 @@ label {
 
 .detalle-tarea {
     margin-top: 10px;
+}
+
+#editForm {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#editForm input,
+#editForm select,
+#editForm textarea {
+    padding: 10px;
+    width: calc(100% - 20px); 
+    margin: 5px;
+    box-sizing: border-box;
+}
+
+#editForm label {
+    margin: 10px;
 }

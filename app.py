@@ -53,5 +53,16 @@ def buscar():
     resultados = planner.buscar_tarea(query) if query else []
     return render_template('index.html', tareas=resultados, query=query)
 
+@app.route('/eliminar', methods=['POST'])
+def eliminar():
+    try:
+        descripcion = request.form['original_descripcion']
+        if planner.eliminar_tarea(descripcion):
+            return redirect(url_for('index'))
+        else:
+            return "Tarea no encontrada", 404
+    except KeyError as e:
+        return f"Missing field: {e}", 400
+
 if __name__ == '__main__':
     app.run(debug=True)

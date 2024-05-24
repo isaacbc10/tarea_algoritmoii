@@ -48,3 +48,25 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 });
+
+
+var eliminarTareaBtn = document.getElementById("eliminarTareaBtn");
+
+eliminarTareaBtn.addEventListener("click", function() {
+    // Confirmar la eliminación de la tarea
+    var confirmar = confirm("¿Estás seguro de que quieres eliminar esta tarea?");
+    if (confirmar) {
+        // Obtener la descripción de la tarea
+        var originalDescripcion = document.getElementById("original_descripcion").value;
+        // Crear un campo oculto con la descripción de la tarea
+        var form = document.getElementById("editForm");
+        var input = document.createElement("input");
+        input.setAttribute("type", "hidden");
+        input.setAttribute("name", "original_descripcion");
+        input.setAttribute("value", originalDescripcion);
+        form.appendChild(input);
+        // Establecer la acción del formulario para eliminar y enviar el formulario
+        form.action = "/eliminar";
+        form.submit();
+    }
+});

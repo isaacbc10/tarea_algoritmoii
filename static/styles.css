@@ -14,14 +14,15 @@ body {
     text-align: center;
     justify-content: center;
     background-color: #8aa399;
+    height: 100%;
 }
 
 .container-form {
+    height: 97%;
     padding: 10px;
     background-color: white;
     border-radius: 20px;
     backdrop-filter: blur(10px);
-    border: 2px solid black;
 }
 
 label {
@@ -42,7 +43,6 @@ label {
 
 .label_name {
     grid-area: input;
-    
     z-index: 100;
     width: max-content;
     margin-left: 1rem;
@@ -51,7 +51,6 @@ label {
     height: 100%;
     display: flex;
     align-items: center;
-    
     transition: transform .2s;
     transform-origin: center left;
 }
@@ -61,6 +60,7 @@ label {
     transform: translateY(-50%) scale(.7);
     background-color: white;
 }
+
 
 .box {
     display: flex;
@@ -77,9 +77,11 @@ label {
 .box-1 {
     display: flex;
     flex-direction: column;
-    background-color: white;
-    border-radius: 10px;
     gap: 20px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .content-select {
@@ -89,12 +91,12 @@ label {
 
 .content-select select {
     display: inline-block;
-    width: 100%;
+    width: 120px;
     cursor: pointer;
     padding: 10px;
     height: 42px;
     outline: 0;
-    border-radius: 6px;
+    border-radius: 40px;
     background: #ffffff;
     color: #495057;
     font-size: 16px;
@@ -102,8 +104,9 @@ label {
     transition: all 0.25s ease;
 }
 
-.content-select select:hover {
-    background: #ffffff;
+.content-select select:focus {
+    transition: all 0.25s ease;
+    border: 2px solid black;
 }
 
 .content-select i {
@@ -138,7 +141,7 @@ label {
     cursor: pointer;
     position: relative;
     z-index: 0;
-    border-radius: 10px;
+    border-radius: 40px;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
@@ -147,15 +150,15 @@ label {
 .button-85:before {
     content: "";
     background: linear-gradient(45deg,
-    #ff0000,
-    #ff7300,
-    #fffb00,
-    #48ff00,
-    #00ffd5,
-    #002bff,
-    #7a00ff,
-    #ff00c8,
-    #ff0000);
+            #ff0000,
+            #ff7300,
+            #fffb00,
+            #48ff00,
+            #00ffd5,
+            #002bff,
+            #7a00ff,
+            #ff00c8,
+            #ff0000);
     position: absolute;
     top: -2px;
     left: -2px;
@@ -167,18 +170,18 @@ label {
     height: calc(100% + 4px);
     animation: glowing-button-85 20s linear infinite;
     transition: opacity 0.3s ease-in-out;
-    border-radius: 10px;
+    border-radius: 40px;
 }
 
 @keyframes glowing-button-85 {
     0% {
         background-position: 0 0;
     }
-    
+
     50% {
         background-position: 400% 0;
     }
-    
+
     100% {
         background-position: 0 0;
     }
@@ -193,11 +196,26 @@ label {
     background: #ffffff;
     left: 0;
     top: 0;
-    border-radius: 10px;
+    border-radius: 40px;
 }
 
 .tareas {
     width: 100%;
-    height: 50%;
+    height: 100%;
+    background-color: #8aa399;
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
     border: 2px solid black;
+}
+
+.tareas h2 {
+    font-size: 2.5em;
+    color: #333;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 0;
+    text-align: center;
 }

@@ -20,15 +20,11 @@
                         <span class="label_name">Descripción</span>
                     </label>
                     <label for="" class="label">
-                        <input type="date" class="input" name="fecha_inicio" required>
-                        <span class="label_name">Fecha de inicio</span>
-                    </label>
-                    <label for="" class="label">
                         <input type="date" class="input" name="fecha_limite" required>
                         <span class="label_name">Fecha Limite</span>
                     </label>
                     <label for="" class="label">
-                        <input type="text" class="input" name="notas" placeholder=" "></input>
+                        <input type="text" class="input" name="notas" placeholder=" " required></input>
                         <span class="label_name">Notas (opcional)</span>
                     </label>
                     <label for="" class="label">
@@ -61,8 +57,8 @@
                         </label>
                     </div>
                 </div>
+                <button class="button-85" type="submit">Agregar</button>
             </form>
-            <button class="button-85" role="button" type="submit">Agregar</button>
         </div>
     </section>
     <section class="tareas">
@@ -73,7 +69,7 @@
         <ul>
             {% for tarea in tareas %}
             <li>
-                {{ tarea.descripcion }} - {{ tarea.fecha_inicio }} - {{ tarea.fecha_limite }} - {{ tarea.prioridad }} -
+                {{ tarea.descripcion }} - {{ tarea.fecha_limite }} - {{ tarea.prioridad }} -
                 {{ tarea.estado }} - {{ tarea.tags }}
                 <a href="/eliminar/{{ tarea.descripcion }}">Eliminar</a>
                 <ul>

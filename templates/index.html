@@ -80,9 +80,9 @@
                     <button class="editar-tarea" data-id="{{ tarea.descripcion }}">
                         <i class="gg-pen"></i> Editar
                     </button>
-                <form action="/eliminar" method="POST" ">
+                <form action="/eliminar" method="POST">
                     <input type="hidden" name="original_descripcion" value="{{ tarea.descripcion }}">
-                    <button type="submit" class="eliminar-tarea" >
+                    <button type="submit" class="eliminar-tarea">
                         <i class="fas fa-trash-alt"></i> Eliminar
                     </button>
                 </form>

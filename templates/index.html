@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planner</title>
+    <title>TaskFlow</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -15,6 +15,7 @@
     <section class="form">
         <div class="container-form">
             <h1>Taskflow</h1>
+            <p>Organiza con Taskflow, tu herramienta de confianza.</p>
             <form action="/agregar" method="POST">
                 <div class="box-1">
                     <label for="" class="label">
@@ -67,7 +68,7 @@
         <h2>Tareas</h2>
         <form class="buscar" action="/buscar" method="GET">
             <label for="query" class="label-buscar">
-                <input type="text" class="input" name="query" placeholder="Buscar tarea..." value="{{ query }}">
+                <input type="text" class="input" name="query" placeholder=" " value="{{ query }}">
                 <span class="label_name">Buscar tarea</span>
             </label>
             <button type="submit" class="button-85">Buscar</button>

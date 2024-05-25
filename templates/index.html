@@ -7,6 +7,7 @@
     <title>Planner</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="/static/scripts.js" defer></script>
 </head>
 
@@ -79,7 +80,13 @@
                     <button class="editar-tarea" data-id="{{ tarea.descripcion }}">
                         <i class="gg-pen"></i> Editar
                     </button>
-                </div>
+                <form action="/eliminar" method="POST" ">
+                    <input type="hidden" name="original_descripcion" value="{{ tarea.descripcion }}">
+                    <button type="submit" class="eliminar-tarea" >
+                        <i class="fas fa-trash-alt"></i> Eliminar
+                    </button>
+                </form>
+                </div>                
                 <div class="detalle-tarea" data-id="{{ tarea.descripcion }}">
                     <p>Descripción: {{ tarea.descripcion }}</p>
                     <p>Fecha Límite: {{ tarea.fecha_limite }}</p>

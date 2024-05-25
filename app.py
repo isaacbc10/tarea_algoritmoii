@@ -54,7 +54,7 @@ def buscar():
     return render_template('index.html', tareas=resultados, query=query)
 
 @app.route('/eliminar', methods=['POST'])
-def eliminar():
+def eliminar_tarea():
     try:
         descripcion = request.form['original_descripcion']
         if planner.eliminar_tarea(descripcion):

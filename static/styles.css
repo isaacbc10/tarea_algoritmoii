@@ -416,11 +416,11 @@ label {
     background-color: #6f847c; 
     border: none;
     color: white;
-    padding: 10px 20px;
+    padding: 5px 10px;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
-    margin: 4px 2px;
+    margin: 5px 10px;
     cursor: pointer;
     border-radius: 4px;
     transition-duration: 0.4s; 
@@ -453,7 +453,7 @@ label {
     background-color: red;
     border: none;
     color: white;
-    padding: 10px 20px;
+    padding: 5px 10px;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
@@ -469,7 +469,7 @@ label {
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
     padding: 20px;
     background-color: transparent;
@@ -478,14 +478,14 @@ label {
 
 .tarea {
     background-color: white;
-    padding: 15px;
+    padding: 5px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
 }
 
 .tarea:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
 .titulo-tarea {
@@ -495,4 +495,35 @@ label {
     padding: 5px 10px;
     background-color: #f7f7f7;
     border-radius: 5px;
+}
+
+
+.tarea {
+    position: relative;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    transition: transform 0.2s;
+}
+
+.tarea:hover {
+    transform: scale(1.02);
+}
+
+.titulo-tarea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+}
+
+.editar-tarea, .eliminar-tarea {
+    display: none; /* Hide the buttons by default */
+}
+
+.tarea:hover .editar-tarea,
+.tarea:hover .eliminar-tarea {
+    display: flex; /* Show the buttons on hover */
 }

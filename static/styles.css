@@ -466,7 +466,7 @@ label {
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 20px;
     padding: 20px;
-    background-color: #f7f7f7;
+    background-color: #f7f7f700;
     border-radius: 10px;
 }
 

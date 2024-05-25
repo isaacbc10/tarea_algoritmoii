@@ -378,8 +378,8 @@ label {
     box-shadow: 0 0 0 2px, inset -2px 0 0;
     border-top-right-radius: 1px;
     border-bottom-right-radius: 1px;
-    margin-right: 5px; /* Adjusted for spacing */
-    vertical-align: middle; /* Aligns icon with text */
+    margin-right: 5px; 
+    vertical-align: middle;
 }
 .gg-pen::after,
 .gg-pen::before {

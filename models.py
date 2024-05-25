@@ -41,20 +41,22 @@ class Planner:
 
     def buscar_tarea(self, descripcion, nodo=None):
         descripcion = descripcion.lower()
-        resultados = []
 
         if nodo is None:
             for tarea in self.tareas:
                 if descripcion in tarea.descripcion.lower():
-                    resultados.append(tarea)
-                resultados.extend(self.buscar_tarea(descripcion, tarea))
-            return resultados
-        for sub_tarea in nodo.sub_tareas:
-            if descripcion in sub_tarea.descripcion.lower():
-                resultados.append(sub_tarea)
-            resultados.extend(self.buscar_tarea(descripcion, sub_tarea))
-        return resultados
-
+                    return tarea  # Devolvemos la primera tarea encontrada
+                resultado = self.buscar_tarea(descripcion, tarea)
+                if resultado:
+                    return resultado
+        else:
+            for sub_tarea in nodo.sub_tareas:
+                if descripcion in sub_tarea.descripcion.lower():
+                    return sub_tarea
+                resultado = self.buscar_tarea(descripcion, sub_tarea)
+                if resultado:
+                    return resultado
+        return None  
 
     def mostrar_tareas(self):
         for tarea in self.tareas:

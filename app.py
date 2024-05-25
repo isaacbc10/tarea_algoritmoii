@@ -34,7 +34,7 @@ def editar():
         progreso = request.form['progreso']
         notas = request.form['notas']
         
-        tarea = planner.buscar_tarea(original_descripcion)
+        tarea = planner.buscar_tarea(descripcion)
         if tarea:
             tarea.descripcion = descripcion
             tarea.fecha_limite = fecha_limite
@@ -47,11 +47,17 @@ def editar():
 
     return redirect(url_for('index'))
 
+
 @app.route('/buscar', methods=['GET'])
 def buscar():
     query = request.args.get('query')
-    resultados = planner.buscar_tarea(query) if query else []
+    if query:
+        resultados = [tarea for tarea in planner.tareas if query.lower() in tarea.descripcion.lower()]
+    else:
+        resultados = planner.tareas
     return render_template('index.html', tareas=resultados, query=query)
+
+
 
 @app.route('/eliminar', methods=['POST'])
 def eliminar_tarea():

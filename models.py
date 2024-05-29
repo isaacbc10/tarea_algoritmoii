@@ -105,3 +105,4 @@ class Planner:
         while nodo_actual.izquierda is not None:
             nodo_actual = nodo_actual.izquierda
         return nodo_actual
+

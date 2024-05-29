@@ -40,7 +40,7 @@ body {
 
 label {
     width: max-content;
-    margin: 10px 10px;
+    margin: 8px 10px;
     display: grid;
     grid-template-areas: "input";
 }
@@ -52,7 +52,7 @@ label {
     border-radius: 40px;
     border: 1px solid gray;
     padding: .7rem 1.5rem;
-    height: 20px;
+    height: 15px;
 }
 
 .label_name {
@@ -98,9 +98,18 @@ label {
     flex: 1;
 }
 
+.bottom-section select {
+    border-radius: 40px;
+    height: 40px;
+}
+
 .checkbox-select {
     display: flex;
-    gap: 10px;
+    gap: 20px;
+}
+
+.checkbox-select span {
+    padding: 10px;
 }
 
 .bottom-section {
@@ -135,7 +144,7 @@ label {
     width: 145px;
     cursor: pointer;
     padding: 10px;
-    height: 44.38px;
+    height: 39.38px;
     outline: 0;
     border-radius: 40px;
     background: #ffffff;
@@ -591,4 +600,8 @@ label {
 
 .subtareas .tarea:hover .titulo-tarea button {
     display: block;
+}
+
+input[type=checkbox] {
+    height: 40px;
 }

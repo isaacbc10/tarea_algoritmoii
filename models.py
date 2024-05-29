@@ -1,69 +1,107 @@
 class Tarea:
-    def __init__(self, descripcion, fecha_limite, prioridad, tags=None, progreso=None, notas=None):
+    def __init__(self, descripcion, fecha_limite, prioridad, tags, progreso, notas, proyecto_id=None):
         self.descripcion = descripcion
         self.fecha_limite = fecha_limite
         self.prioridad = prioridad
-        self.progreso = progreso if progreso is not None else "No iniciado"
-        self.tags = tags if tags is not None else []
-        self.notas = notas if notas is not None else ""
-        self.sub_tareas = []
+        self.tags = tags
+        self.progreso = progreso
+        self.notas = notas
+        self.proyecto_id = proyecto_id  # Identificador del proyecto padre (si es una subtarea)
+        self.subtareas = []
+        self.izquierda = None
+        self.derecha = None
 
-    def agregar_sub_tarea(self, sub_tarea):
-        self.sub_tareas.append(sub_tarea)
-
-    def eliminar_sub_tarea(self, descripcion):
-        for sub_tarea in self.sub_tareas:
-            if sub_tarea.descripcion == descripcion:
-                self.sub_tareas.remove(sub_tarea)
-                return True
-            if sub_tarea.eliminar_sub_tarea(descripcion):
-                return True
-        return False
+    def agregar_subtarea(self, subtarea):
+        self.subtareas.append(subtarea)
 
 class Planner:
     def __init__(self):
-        self.tareas = []
+        self.raiz = None
 
-    def agregar_tarea(self, descripcion, fecha_limite, prioridad, tags=None, progreso=None, notas=None):
-        nueva_tarea = Tarea(descripcion, fecha_limite, prioridad, tags, progreso, notas)
-        self.tareas.append(nueva_tarea)
-        return nueva_tarea
+    def agregar_tarea(self, descripcion, fecha_limite, prioridad, tags, progreso, notas, proyecto_id=None):
+        nueva_tarea = Tarea(descripcion, fecha_limite, prioridad, tags, progreso, notas, proyecto_id)
+        if proyecto_id is None:
+            if self.raiz is None:
+                self.raiz = nueva_tarea
+            else:
+                self._insertar(self.raiz, nueva_tarea)
+        else:
+            proyecto = self.buscar_tarea(proyecto_id)
+            if proyecto:
+                proyecto.agregar_subtarea(nueva_tarea)
+            else:
+                raise ValueError("Proyecto no encontrado")
+
+    def _insertar(self, nodo_actual, nueva_tarea):
+        if nueva_tarea.descripcion < nodo_actual.descripcion:
+            if nodo_actual.izquierda is None:
+                nodo_actual.izquierda = nueva_tarea
+            else:
+                self._insertar(nodo_actual.izquierda, nueva_tarea)
+        else:
+            if nodo_actual.derecha is None:
+                nodo_actual.derecha = nueva_tarea
+            else:
+                self._insertar(nodo_actual.derecha, nueva_tarea)
+
+    def obtener_todas_tareas(self):
+        tareas = []
+        self._inorden(self.raiz, tareas)
+        return tareas
+
+    def _inorden(self, nodo_actual, tareas):
+        if nodo_actual is not None:
+            self._inorden(nodo_actual.izquierda, tareas)
+            tareas.append(nodo_actual)
+            for subtarea in nodo_actual.subtareas:
+                tareas.append(subtarea)
+            self._inorden(nodo_actual.derecha, tareas)
+
+    def buscar_tarea(self, descripcion):
+        return self._buscar(self.raiz, descripcion)
+
+    def _buscar(self, nodo_actual, descripcion):
+        if nodo_actual is None:
+            return None
+        if nodo_actual.descripcion == descripcion:
+            return nodo_actual
+        elif descripcion < nodo_actual.descripcion:
+            return self._buscar(nodo_actual.izquierda, descripcion)
+        else:
+            return self._buscar(nodo_actual.derecha, descripcion)
 
     def eliminar_tarea(self, descripcion):
-        for tarea in self.tareas:
-            if tarea.descripcion == descripcion:
-                self.tareas.remove(tarea)
-                return True
-            if tarea.eliminar_sub_tarea(descripcion):
-                return True
-        return False
+        self.raiz, deleted = self._eliminar(self.raiz, descripcion)
+        return deleted
 
+    def _eliminar(self, nodo_actual, descripcion):
+        if nodo_actual is None:
+            return nodo_actual, False
 
-    def buscar_tarea(self, descripcion, nodo=None):
-        descripcion = descripcion.lower()
-
-        if nodo is None:
-            for tarea in self.tareas:
-                if descripcion in tarea.descripcion.lower():
-                    return tarea  # Devolvemos la primera tarea encontrada
-                resultado = self.buscar_tarea(descripcion, tarea)
-                if resultado:
-                    return resultado
+        deleted = False
+        if descripcion < nodo_actual.descripcion:
+            nodo_actual.izquierda, deleted = self._eliminar(nodo_actual.izquierda, descripcion)
+        elif descripcion > nodo_actual.descripcion:
+            nodo_actual.derecha, deleted = self._eliminar(nodo_actual.derecha, descripcion)
         else:
-            for sub_tarea in nodo.sub_tareas:
-                if descripcion in sub_tarea.descripcion.lower():
-                    return sub_tarea
-                resultado = self.buscar_tarea(descripcion, sub_tarea)
-                if resultado:
-                    return resultado
-        return None  
+            deleted = True
+            if nodo_actual.izquierda is None:
+                return nodo_actual.derecha, deleted
+            elif nodo_actual.derecha is None:
+                return nodo_actual.izquierda, deleted
 
-    def mostrar_tareas(self):
-        for tarea in self.tareas:
-            self._mostrar_tarea(tarea, 0)
+            min_larger_node = self._encontrar_minimo(nodo_actual.derecha)
+            nodo_actual.descripcion = min_larger_node.descripcion
+            nodo_actual.fecha_limite = min_larger_node.fecha_limite
+            nodo_actual.prioridad = min_larger_node.prioridad
+            nodo_actual.tags = min_larger_node.tags
+            nodo_actual.progreso = min_larger_node.progreso
+            nodo_actual.notas = min_larger_node.notas
+            nodo_actual.derecha, _ = self._eliminar(nodo_actual.derecha, min_larger_node.descripcion)
 
-    def _mostrar_tarea(self, tarea, nivel):
-        indentacion = ' ' * (nivel * 4)
-        print(f"{indentacion}Descripción: {tarea.descripcion}, Fecha Inicio: {tarea.fecha_inicio}, Fecha Límite: {tarea.fecha_limite}, Prioridad: {tarea.prioridad}, Estado: {tarea.progreso}, Tags: {tarea.tags}, Notas: {tarea.notas}")
-        for sub_tarea in tarea.sub_tareas:
-            self._mostrar_tarea(sub_tarea, nivel + 1)
+        return nodo_actual, deleted
+
+    def _encontrar_minimo(self, nodo_actual):
+        while nodo_actual.izquierda is not None:
+            nodo_actual = nodo_actual.izquierda
+        return nodo_actual

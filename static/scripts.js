@@ -70,3 +70,13 @@ eliminarTareaBtn.addEventListener("click", function() {
         form.submit();
     }
 });
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const proyectos = document.querySelectorAll(".proyecto");
+    proyectos.forEach(proyecto => {
+        proyecto.addEventListener("click", function() {
+            this.querySelector(".subtareas").classList.toggle("mostrar");
+        });
+    });
+});

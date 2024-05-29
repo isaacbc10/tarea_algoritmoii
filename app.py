@@ -6,7 +6,9 @@ planner = Planner()
 
 @app.route('/')
 def index():
-    return render_template('index.html', tareas=planner.tareas)
+    tareas = planner.obtener_todas_tareas()
+    proyectos = [tarea for tarea in tareas if tarea.proyecto_id is None]
+    return render_template('index.html', tareas=tareas, proyectos=proyectos)
 
 @app.route('/agregar', methods=['POST'])
 def agregar():
@@ -17,7 +19,10 @@ def agregar():
         tags = request.form['tags'].split(', ')
         progreso = request.form['progreso']
         notas = request.form['notas']
-        planner.agregar_tarea(descripcion, fecha_limite, prioridad, tags, progreso, notas)
+        es_proyecto = 'es_proyecto' in request.form
+        proyecto_id = request.form['proyecto_id'] if not es_proyecto else None
+
+        planner.agregar_tarea(descripcion, fecha_limite, prioridad, tags, progreso, notas, proyecto_id)
     except KeyError as e:
         return f"Missing field: {e}", 400
 
@@ -34,7 +39,7 @@ def editar():
         progreso = request.form['progreso']
         notas = request.form['notas']
         
-        tarea = planner.buscar_tarea(descripcion)
+        tarea = planner.buscar_tarea(original_descripcion)
         if tarea:
             tarea.descripcion = descripcion
             tarea.fecha_limite = fecha_limite
@@ -47,17 +52,14 @@ def editar():
 
     return redirect(url_for('index'))
 
-
 @app.route('/buscar', methods=['GET'])
 def buscar():
     query = request.args.get('query')
     if query:
-        resultados = [tarea for tarea in planner.tareas if query.lower() in tarea.descripcion.lower()]
+        resultados = [tarea for tarea in planner.obtener_todas_tareas() if query.lower() in tarea.descripcion.lower()]
     else:
-        resultados = planner.tareas
+        resultados = planner.obtener_todas_tareas()
     return render_template('index.html', tareas=resultados, query=query)
-
-
 
 @app.route('/eliminar', methods=['POST'])
 def eliminar_tarea():

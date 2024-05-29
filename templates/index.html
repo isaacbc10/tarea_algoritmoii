@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="/static/scripts.js" defer></script>
+    <script src="{{ url_for('static', filename='scripts.js') }}" defer></script>
 </head>
 
 <body>
@@ -35,37 +35,61 @@
                         <span class="label_name">Tags</span>
                     </label>
                     <div class="box">
-                        <label for="">
-                            <span>Prioridad</span>
-                            <div class="content-select">
-                                <select name="prioridad" required>
-                                    <option value=""></option>
-                                    <option value="Baja">Baja</option>
-                                    <option value="Media">Media</option>
-                                    <option value="Alta">Alta</option>
-                                    <option value="Urgente">Urgente</option>
-                                </select>
+                        <div class="top-section">
+                            <div class="input-group">
+                                <label for="">
+                                    <span>Prioridad</span>
+                                    <div class="content-select">
+                                        <select name="prioridad" required>
+                                            <option value=""></option>
+                                            <option value="Baja">Baja</option>
+                                            <option value="Media">Media</option>
+                                            <option value="Alta">Alta</option>
+                                            <option value="Urgente">Urgente</option>
+                                        </select>
+                                    </div>
+                                </label>
+                                <label for="">
+                                    <span>Progreso</span>
+                                    <div class="content-select">
+                                        <select name="progreso" required>
+                                            <option value=""></option>
+                                            <option value="No iniciado">No iniciado</option>
+                                            <option value="En progreso">En progreso</option>
+                                            <option value="Finalizado">Finalizado</option>
+                                        </select>
+                                    </div>
+                                </label>
                             </div>
-                        </label>
-                        <label for="">
-                            <span>Progreso</span>
-                            <div class="content-select">
-                                <select name="progreso" required>
-                                    <option value=""></option>
-                                    <option value="No iniciado">No iniciado</option>
-                                    <option value="En progreso">En progreso</option>
-                                    <option value="Finalizado">Finalizado</option>
-                                </select>
+                        </div>
+                        <div class="bottom-section">
+                            <div class="checkbox-select">
+                                <label for="">
+                                    <span>Es Proyecto</span>
+                                    <input type="checkbox" name="es_proyecto">
+                                </label>
+                                <label for="">
+                                    <span>Proyecto Padre</span>
+                                    <select name="proyecto_id">
+                                        <option value=""></option>
+                                        {% for proyecto in proyectos %}
+                                        <option value="{{ proyecto.descripcion }}">{{ proyecto.descripcion }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
                             </div>
-                        </label>
-                    </div>
+                        </div>
+                    </div>                    
                 </div>
-                <button class="button-85" type="submit">Agregar</button>
+                <button class="button-85" type="submit">Agregar Tarea</button>
             </form>
         </div>
     </section>
     <section class="tareas">
-        <h2>Tareas</h2>
+        {% if proyecto_actual %}
+        <h2>{{ proyecto_actual.descripcion }}</h2>
+        <p>{{ proyecto_actual.descripcion_general }}</p>
+        {% endif %}
         <form class="buscar" action="/buscar" method="GET">
             <label for="query" class="label-buscar">
                 <input type="text" class="input" name="query" placeholder=" " value="{{ query }}">
@@ -74,34 +98,40 @@
             <button type="submit" class="button-85">Buscar</button>
         </form>
         <div id="tareas-container" class="grid-container">
-            {% for tarea in tareas %}
-            <div class="tarea">
-                <div class="titulo-tarea" data-id="{{ tarea.descripcion }}">
-                    <span>{{ tarea.descripcion }}</span>
-                    <button class="editar-tarea" data-id="{{ tarea.descripcion }}">
-                        <i class="gg-pen"></i> Editar
-                    </button>
-                <form action="/eliminar" method="POST">
-                    <input type="hidden" name="original_descripcion" value="{{ tarea.descripcion }}">
-                    <button type="submit" class="eliminar-tarea">
-                        <i class="fas fa-trash-alt"></i> Eliminar
-                    </button>
-                </form>
-                </div>                
-                <div class="detalle-tarea" data-id="{{ tarea.descripcion }}">
-                    <p>Descripción: {{ tarea.descripcion }}</p>
-                    <p>Fecha Límite: {{ tarea.fecha_limite }}</p>
-                    <p>Prioridad: {{ tarea.prioridad }}</p>
-                    <p>Progreso: {{ tarea.progreso }}</p>
-                    <p>Tags: {% for tag in tarea.tags %}#{{ tag }} {% endfor %}</p>
-                    <p>Notas: {{ tarea.notas }}</p>
+            {% for proyecto in proyectos %}
+            <div class="proyecto">
+                <h3>{{ proyecto.descripcion }}</h3>
+                <p>{{ proyecto.descripcion_general }}</p>
+                <div class="subtareas">
+                    {% for tarea in proyecto.subtareas %}
+                    <div class="tarea">
+                        <div class="titulo-tarea" data-id="{{ tarea.descripcion }}">
+                            <span>{{ tarea.descripcion }}</span>
+                            <button class="editar-tarea" data-id="{{ tarea.descripcion }}">
+                                <i class="gg-pen"></i> Editar
+                            </button>
+                            <form action="/eliminar" method="POST">
+                                <input type="hidden" name="original_descripcion" value="{{ tarea.descripcion }}">
+                                <button type="submit" class="eliminar-tarea">
+                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                </button>
+                            </form>
+                        </div>
+                        <div class="detalle-tarea" data-id="{{ tarea.descripcion }}">
+                            <p>Descripción: {{ tarea.descripcion }}</p>
+                            <p>Fecha Límite: {{ tarea.fecha_limite }}</p>
+                            <p>Prioridad: {{ tarea.prioridad }}</p>
+                            <p>Progreso: {{ tarea.progreso }}</p>
+                            <p>Tags: {% for tag in tarea.tags %}#{{ tag }} {% endfor %}</p>
+                            <p>Notas: {{ tarea.notas }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
             {% endfor %}
         </div>
-    </section>
-
-    <!-- Modal -->
+    </section>    
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -110,7 +140,7 @@
                 <div class="formEdit">
                     <input type="hidden" name="original_descripcion" id="original_descripcion">
                     <label>
-                        Descripción:
+                                            Descripción:
                         <input type="text" name="descripcion" id="edit_descripcion" required>
                     </label>
                     <label>
@@ -148,4 +178,6 @@
         </div>
     </div>
 </body>
+
 </html>
+

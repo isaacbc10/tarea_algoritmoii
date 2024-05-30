@@ -16,15 +16,32 @@
         <div class="container-form">
             <h1>Taskflow</h1>
             <p>Organiza con Taskflow, tu herramienta de confianza.</p>
-            <form action="/agregar" method="POST">
+            <form action="/agregar_proyecto" method="POST">
                 <div class="box-1">
                     <label for="" class="label">
                         <input type="text" class="input" name="descripcion" placeholder=" " required>
-                        <span class="label_name">Titulo</span>
+                        <span class="label_name">Descripción del Proyecto</span>
+                    </label>
+                    <label for="" class="label">
+                        <input type="text" class="input" name="descripcion_general" placeholder=" " required>
+                        <span class="label_name">Descripción General</span>
+                    </label>
+                </div>
+                <button class="button-85" type="submit">Agregar Proyecto</button>
+            </form>
+        </div>
+    </section>
+    <section class="form">
+        <div class="container-form">
+            <form action="/agregar_tarea" method="POST">
+                <div class="box-1">
+                    <label for="" class="label">
+                        <input type="text" class="input" name="descripcion" placeholder=" " required>
+                        <span class="label_name">Descripción de la Tarea</span>
                     </label>
                     <label for="" class="label">
                         <input type="date" class="input" name="fecha_limite" required>
-                        <span class="label_name">Fecha Limite</span>
+                        <span class="label_name">Fecha Límite</span>
                     </label>
                     <label for="" class="label">
                         <input type="text" class="input" name="notas" placeholder=" "></input>
@@ -63,121 +80,66 @@
                             </div>
                         </div>
                         <div class="bottom-section">
-                            <div class="checkbox-select">
-                                <label for="">
-                                    <span>Es Proyecto</span>
-                                    <input type="checkbox" name="es_proyecto">
-                                </label>
-                                <label for="">
-                                    <span>Proyecto Padre</span>
-                                    <select name="proyecto_id">
-                                        <option value=""></option>
-                                        {% for proyecto in proyectos %}
-                                        <option value="{{ proyecto.descripcion }}">{{ proyecto.descripcion }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </label>
-                            </div>
+                            <label for="">
+                                <span>Proyecto</span>
+                                <select name="proyecto_id" required>
+                                    <option value=""></option>
+                                    {% for proyecto in proyectos %}
+                                    <option value="{{ proyecto.descripcion }}">{{ proyecto.descripcion }}</option>
+                                    {% endfor %}
+                                </select>
+                            </label>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
                 <button class="button-85" type="submit">Agregar Tarea</button>
             </form>
         </div>
     </section>
     <section class="tareas">
-        {% if proyecto_actual %}
-        <h2>{{ proyecto_actual.descripcion }}</h2>
-        <p>{{ proyecto_actual.descripcion_general }}</p>
-        {% endif %}
         <form class="buscar" action="/buscar" method="GET">
             <label for="query" class="label-buscar">
                 <input type="text" class="input" name="query" placeholder=" " value="{{ query }}">
-                <span class="label_name">Buscar tarea</span>
+                <span class="label_name">Buscar tarea o proyecto</span>
             </label>
             <button type="submit" class="button-85">Buscar</button>
         </form>
-        <div id="tareas-container" class="grid-container">
+        <div id="proyectos-container" class="grid-container">
             {% for proyecto in proyectos %}
             <div class="proyecto">
                 <h3>{{ proyecto.descripcion }}</h3>
                 <p>{{ proyecto.descripcion_general }}</p>
                 <div class="subtareas">
-                    {% for tarea in proyecto.subtareas %}
+                    {% for tarea in proyecto.tareas %}
                     <div class="tarea">
                         <div class="titulo-tarea" data-id="{{ tarea.descripcion }}">
                             <span>{{ tarea.descripcion }}</span>
                             <button class="editar-tarea" data-id="{{ tarea.descripcion }}">
                                 <i class="gg-pen"></i> Editar
                             </button>
-                            <form action="/eliminar" method="POST">
+                            <form action="/eliminar_tarea" method="POST">
                                 <input type="hidden" name="original_descripcion" value="{{ tarea.descripcion }}">
                                 <button type="submit" class="eliminar-tarea">
-                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                    <i class="gg-trash"></i> Eliminar
                                 </button>
                             </form>
                         </div>
-                        <div class="detalle-tarea" data-id="{{ tarea.descripcion }}">
-                            <p>Descripción: {{ tarea.descripcion }}</p>
-                            <p>Fecha Límite: {{ tarea.fecha_limite }}</p>
-                            <p>Prioridad: {{ tarea.prioridad }}</p>
-                            <p>Progreso: {{ tarea.progreso }}</p>
-                            <p>Tags: {% for tag in tarea.tags %}#{{ tag }} {% endfor %}</p>
-                            <p>Notas: {{ tarea.notas }}</p>
-                        </div>
+                        <p><strong>Fecha límite:</strong> {{ tarea.fecha_limite }}</p>
+                        <p><strong>Prioridad:</strong> {{ tarea.prioridad }}</p>
+                        <p><strong>Progreso:</strong> {{ tarea.progreso }}</p>
+                        <p><strong>Notas:</strong> {{ tarea.notas }}</p>
+                        <p><strong>Tags:</strong> {{ tarea.tags | join(", ") }}</p>
                     </div>
                     {% endfor %}
                 </div>
+                <form action="/eliminar_proyecto" method="POST">
+                    <input type="hidden" name="descripcion" value="{{ proyecto.descripcion }}">
+                    <button type="submit" class="eliminar-proyecto">Eliminar Proyecto</button>
+                </form>
             </div>
             {% endfor %}
         </div>
-    </section>    
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Editar Tarea</h2>
-            <form id="editForm" action="/editar" method="POST">
-                <div class="formEdit">
-                    <input type="hidden" name="original_descripcion" id="original_descripcion">
-                    <label>
-                                            Descripción:
-                        <input type="text" name="descripcion" id="edit_descripcion" required>
-                    </label>
-                    <label>
-                        Fecha Límite:
-                        <input type="date" name="fecha_limite" id="edit_fecha_limite" required>
-                    </label>
-                    <label>
-                        Prioridad:
-                        <select name="prioridad" id="edit_prioridad" required>
-                            <option value="Baja">Baja</option>
-                            <option value="Media">Media</option>
-                            <option value="Alta">Alta</option>
-                            <option value="Urgente">Urgente</option>
-                        </select>
-                    </label>
-                    <label>
-                        Progreso:
-                        <select name="progreso" id="edit_progreso" required>
-                            <option value="No iniciado">No iniciado</option>
-                            <option value="En progreso">En progreso</option>
-                            <option value="Finalizado">Finalizado</option>
-                        </select>
-                    </label>
-                    <label>
-                        Tags:
-                        <input type="text" name="tags" id="edit_tags" required>
-                    </label>
-                    <label>
-                        Notas:
-                        <input type="text" name="notas" id="edit_notas">
-                    </label>
-                </div>
-                <button type="submit">Guardar cambios</button>
-            </form>
-        </div>
-    </div>
+    </section>
 </body>
 
 </html>
-

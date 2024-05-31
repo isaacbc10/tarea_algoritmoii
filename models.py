@@ -6,17 +6,34 @@ class Tarea:
         self.tags = tags
         self.progreso = progreso
         self.notas = notas
+        self.izquierda = None
+        self.derecha = None
 
 class Proyecto:
     def __init__(self, descripcion, descripcion_general):
         self.descripcion = descripcion
         self.descripcion_general = descripcion_general
-        self.tareas = []
+        self.raiz_tarea = None
         self.izquierda = None
         self.derecha = None
 
     def agregar_tarea(self, tarea):
-        self.tareas.append(tarea)
+        if self.raiz_tarea is None:
+            self.raiz_tarea = tarea
+        else:
+            self._insertar_tarea(self.raiz_tarea, tarea)
+
+    def _insertar_tarea(self, nodo_actual, nueva_tarea):
+        if nueva_tarea.descripcion < nodo_actual.descripcion:
+            if nodo_actual.izquierda is None:
+                nodo_actual.izquierda = nueva_tarea
+            else:
+                self._insertar_tarea(nodo_actual.izquierda, nueva_tarea)
+        else:
+            if nodo_actual.derecha is None:
+                nodo_actual.derecha = nueva_tarea
+            else:
+                self._insertar_tarea(nodo_actual.derecha, nueva_tarea)
 
 class Planner:
     def __init__(self):
@@ -96,7 +113,7 @@ class Planner:
             min_larger_node = self._encontrar_minimo(nodo_actual.derecha)
             nodo_actual.descripcion = min_larger_node.descripcion
             nodo_actual.descripcion_general = min_larger_node.descripcion_general
-            nodo_actual.tareas = min_larger_node.tareas
+            nodo_actual.raiz_tarea = min_larger_node.raiz_tarea
             nodo_actual.derecha, _ = self._eliminar_proyecto(nodo_actual.derecha, min_larger_node.descripcion)
 
         return nodo_actual, deleted
@@ -109,7 +126,17 @@ class Planner:
     def buscar_tarea(self, descripcion):
         proyectos = self.obtener_todos_proyectos()
         for proyecto in proyectos:
-            for tarea in proyecto.tareas:
-                if tarea.descripcion == descripcion:
-                    return tarea
+            tarea = self._buscar_tarea(proyecto.raiz_tarea, descripcion)
+            if tarea:
+                return tarea
         return None
+
+    def _buscar_tarea(self, nodo_actual, descripcion):
+        if nodo_actual is None:
+            return None
+        if nodo_actual.descripcion == descripcion:
+            return nodo_actual
+        elif descripcion < nodo_actual.descripcion:
+            return self._buscar_tarea(nodo_actual.izquierda, descripcion)
+        else:
+            return self._buscar_tarea(nodo_actual.derecha, descripcion)

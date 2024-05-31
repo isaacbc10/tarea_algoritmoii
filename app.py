@@ -4,6 +4,13 @@ from models import Planner
 app = Flask(__name__)
 planner = Planner()
 
+def tareas_a_lista(nodo_tarea):
+    if nodo_tarea is None:
+        return []
+    return tareas_a_lista(nodo_tarea.izquierda) + [nodo_tarea] + tareas_a_lista(nodo_tarea.derecha)
+
+app.jinja_env.filters['to_list'] = tareas_a_lista
+
 @app.route('/')
 def index():
     proyectos = planner.obtener_todos_proyectos()
@@ -69,9 +76,9 @@ def buscar():
         for proyecto in planner.obtener_todos_proyectos():
             if query.lower() in proyecto.descripcion.lower() or query.lower() in proyecto.descripcion_general.lower():
                 resultados.append(proyecto)
-            for tarea in proyecto.tareas:
-                if query.lower() in tarea.descripcion.lower():
-                    resultados.append(tarea)
+            tarea = planner._buscar_tarea(proyecto.raiz_tarea, query)
+            if tarea:
+                resultados.append(tarea)
     else:
         resultados = planner.obtener_todos_proyectos()
     return render_template('index.html', proyectos=resultados, query=query)
@@ -93,9 +100,9 @@ def eliminar_tarea():
         descripcion = request.form['original_descripcion']
         proyectos = planner.obtener_todos_proyectos()
         for proyecto in proyectos:
-            for tarea in proyecto.tareas:
-                if tarea.descripcion == descripcion:
-                    proyecto.tareas.remove(tarea)
+            tarea = planner._buscar_tarea(proyecto.raiz_tarea, descripcion)
+            if tarea:
+                if planner._eliminar_tarea(proyecto, descripcion):
                     return redirect(url_for('index'))
         return "Tarea no encontrada", 404
     except KeyError as e:

@@ -29,10 +29,6 @@
                 </div>
                 <button class="button-85" type="submit">Agregar Proyecto</button>
             </form>
-        </div>
-    </section>
-    <section class="form">
-        <div class="container-form">
             <form action="/agregar_tarea" method="POST">
                 <div class="box-1">
                     <label for="" class="label">
@@ -98,48 +94,56 @@
     </section>
     <section class="tareas">
         <form class="buscar" action="/buscar" method="GET">
-            <label for="query" class="label-buscar">
-                <input type="text" class="input" name="query" placeholder=" " value="{{ query }}">
-                <span class="label_name">Buscar tarea o proyecto</span>
-            </label>
-            <button type="submit" class="button-85">Buscar</button>
+            <!-- Formulario de búsqueda -->
         </form>
-        <div id="proyectos-container" class="grid-container">
-            {% for proyecto in proyectos %}
-            <div class="proyecto">
-                <h3>{{ proyecto.descripcion }}</h3>
-                <p>{{ proyecto.descripcion_general }}</p>
-                <div class="subtareas">
-                    {% for tarea in proyecto.tareas %}
-                    <div class="tarea">
-                        <div class="titulo-tarea" data-id="{{ tarea.descripcion }}">
-                            <span>{{ tarea.descripcion }}</span>
-                            <button class="editar-tarea" data-id="{{ tarea.descripcion }}">
-                                <i class="gg-pen"></i> Editar
-                            </button>
-                            <form action="/eliminar_tarea" method="POST">
-                                <input type="hidden" name="original_descripcion" value="{{ tarea.descripcion }}">
-                                <button type="submit" class="eliminar-tarea">
-                                    <i class="gg-trash"></i> Eliminar
-                                </button>
+        <div class="lista-proyectos">
+            {% if proyectos %}
+                <ul class="proyectos">
+                    {% for proyecto in proyectos %}
+                        <li class="proyecto">
+                            <h2>{{ proyecto.descripcion }}</h2>
+                            <p>{{ proyecto.descripcion_general }}</p>
+                            <form action="/eliminar_proyecto" method="POST" style="display:inline;">
+                                <!-- Botón para eliminar proyecto -->
                             </form>
-                        </div>
-                        <p><strong>Fecha límite:</strong> {{ tarea.fecha_limite }}</p>
-                        <p><strong>Prioridad:</strong> {{ tarea.prioridad }}</p>
-                        <p><strong>Progreso:</strong> {{ tarea.progreso }}</p>
-                        <p><strong>Notas:</strong> {{ tarea.notas }}</p>
-                        <p><strong>Tags:</strong> {{ tarea.tags | join(", ") }}</p>
-                    </div>
+                            <h3>Tareas:</h3>
+                            <ul class="subtareas">
+                                <!-- Contenedor de tareas del proyecto -->
+                                {% for tarea in proyecto.raiz_tarea|to_list %}
+                                    <li class="tarea">
+                                        <div class="titulo-tarea">
+                                            <span>{{ tarea.descripcion }}</span>
+                                            <div class="acciones">
+                                                
+                                                <form action="/eliminar_tarea" method="POST" style="display:inline;">
+                                                    <!-- Botón para eliminar tarea -->
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="detalle-tarea">
+                                            <p>Fecha Límite: {{ tarea.fecha_limite }}</p>
+                                            <p>Prioridad: {{ tarea.prioridad }}</p>
+                                            <p>Tags: {{ tarea.tags|join(', ') }}</p>
+                                            <p>Progreso: {{ tarea.progreso }}</p>
+                                            <p>Notas: {{ tarea.notas }}</p>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <!-- Formulario para agregar tarea al proyecto -->
+                            <form action="/agregar_tarea" method="POST">
+                                <!-- Campos de entrada para la nueva tarea -->
+                            </form>
+                        </li>
                     {% endfor %}
-                </div>
-                <form action="/eliminar_proyecto" method="POST">
-                    <input type="hidden" name="descripcion" value="{{ proyecto.descripcion }}">
-                    <button type="submit" class="eliminar-proyecto">Eliminar Proyecto</button>
-                </form>
-            </div>
-            {% endfor %}
+                </ul>
+            {% else %}
+                <p>No hay proyectos ni tareas disponibles.</p>
+            {% endif %}
         </div>
     </section>
+    
+    
 </body>
-
 </html>
+
